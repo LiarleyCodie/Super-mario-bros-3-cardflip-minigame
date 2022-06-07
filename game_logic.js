@@ -18,6 +18,7 @@ const cardsList = [
 // cardsList[y = row][x = column/card].objectProperty
 
 document.addEventListener("keypress", e => {
+    // Movimenta o marcador
     if (e.key == "ArrowLeft") {
         if (markerPosition.x > 0) {
             markerPosition.x -= 1
@@ -43,26 +44,31 @@ document.addEventListener("keypress", e => {
         }
     }
 
+    // Verifica se espaço foi pressionado e faz uma verificação para saber se a posição do marcador
+    // é igual a posição da carta desejada, se for, ao pressionar, ele vira essa carta.
     if (e.key == " ") {
-        console.log("Valor")
-        if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x) {
+        if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x 
+            && 
+            markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
 
-            selectedCardReference()
+            cardsList[markerPosition.y][markerPosition.x].flipped = true
+            
+            cardMarkerReference()
         }
     }
 })
 
 function cardMarkerReference() {
     console.clear()
-    console.log("Selected Card Marker Position:", markerPosition)
-}
+    console.log(`Marcador:
+    x: ${markerPosition.x}
+    y: ${markerPosition.y}
+    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}`)
 
-function selectedCardReference() {
-    console.clear()
-    cardMarkerReference()
     console.log(`O Cartão selecionado está na:
     Linha (x): ${cardsList[markerPosition.y][markerPosition.x].y}
-    Coluna (y): ${cardsList[markerPosition.y][markerPosition.x].x}`)
+    Coluna (y): ${cardsList[markerPosition.y][markerPosition.x].x}
+    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}`)
 }
 
 cardMarkerReference()
