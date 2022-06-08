@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background-color: #000;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.cards-container .row {
+    display: flex;
+}
+
+.cards-container .row:not(:last-child) {
+    margin-bottom: 4rem;
+}
+
+.cards-container .row .card:not(:last-child) {
+    margin-right: 4rem;
+}
+
+.cards-container .row .card {
+    position: relative;
+
+    display: grid;
+    place-items: center;
+
+    height: 10rem;
+    width: 7rem;
+
+}
+
+.cards-container .row .card img {
+    position: absolute;
+    height: 10rem;
+    width: auto;
+    
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.cards-container .row .card img.marker {
+    height: 14rem;
+}

@@ -1,10 +1,5 @@
-const markerPosition = {
-    x: 0,
-    y: 0,
-    currentCompValue: null
-}
-
-const _flippedCards = []
+//#region CONST and VARIABLES
+const cardsContainer = document.querySelector("#cardsContainer")
 
 const cardsList = [
     [
@@ -20,34 +15,41 @@ const cardsList = [
 ]
 // cardsList[y = row][x = column/card].objectProperty
 
+
+const markerPosition = {
+    x: 0,
+    y: 0,
+    currentCompValue: null
+}
+
+cardsList.forEach(row => {
+    // Cria as linhas
+    const rowDiv = document.createElement("div")
+    rowDiv.classList.add("row")
+    cardsContainer.appendChild(rowDiv)
+
+    // Cria as cartas
+    row.forEach(card => {
+        const cardDiv = document.createElement("div")
+        cardDiv.classList.add("card")
+        rowDiv.appendChild(cardDiv)
+
+        // Cria as imagens
+        const cardImage = document.createElement("img")
+        cardImage.setAttribute("src", "assets/sprites/cardBack.png")
+        cardDiv.appendChild(cardImage)
+    })
+})
+
+const _flippedCards = []
+
+
 let _cardsFlippedAmount = 0
+//#endregion
 
 document.addEventListener("keypress", e => {
     // Movimenta o marcador
-    if (e.key == "ArrowLeft") {
-        if (markerPosition.x > 0) {
-            markerPosition.x -= 1
-            cardMarkerReference()
-        }
-    }
-    if (e.key == "ArrowRight") {
-        if (markerPosition.x < cardsList[0].length - 1) {
-            markerPosition.x += 1
-            cardMarkerReference()
-        }
-    }
-    if (e.key == "ArrowUp") {
-        if (markerPosition.y > 0) {
-            markerPosition.y -= 1
-            cardMarkerReference()
-        }
-    }
-    if (e.key == "ArrowDown") {
-        if (markerPosition.y < cardsList.length - 1) {
-            markerPosition.y += 1
-            cardMarkerReference()
-        }
-    }
+    movementsInputs(e)
 
     // Verifica se espaço foi pressionado e faz uma verificação para saber se a posição do marcador
     // é igual a posição da carta desejada, se for, ao pressionar, ele vira essa carta.
@@ -115,4 +117,31 @@ function cardMarkerReference() {
     Quantidade de cartas viradas: ${_cardsFlippedAmount}`)
 }
 
-cardMarkerReference()
+// cardMarkerReference()
+
+function movementsInputs(value) {
+    if (value.key == "ArrowLeft") {
+        if (markerPosition.x > 0) {
+            markerPosition.x -= 1
+            cardMarkerReference()
+        }
+    }
+    if (value.key == "ArrowRight") {
+        if (markerPosition.x < cardsList[0].length - 1) {
+            markerPosition.x += 1
+            cardMarkerReference()
+        }
+    }
+    if (value.key == "ArrowUp") {
+        if (markerPosition.y > 0) {
+            markerPosition.y -= 1
+            cardMarkerReference()
+        }
+    }
+    if (value.key == "ArrowDown") {
+        if (markerPosition.y < cardsList.length - 1) {
+            markerPosition.y += 1
+            cardMarkerReference()
+        }
+    }
+}
