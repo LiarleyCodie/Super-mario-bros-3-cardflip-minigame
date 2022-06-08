@@ -3,18 +3,19 @@ const cardsContainer = document.querySelector("#cardsContainer")
 
 const cardsList = [
     [
-        { x: 0, y: 0, flipped: false, compValue: 0 },
-        { x: 1, y: 0, flipped: false, compValue: 1 },
-        { x: 2, y: 0, flipped: false, compValue: 2 }
+        { x: 0, y: 0, flipped: false, compValue: 0, index: 0 },
+        { x: 1, y: 0, flipped: false, compValue: 1, index: 1 },
+        { x: 2, y: 0, flipped: false, compValue: 2, index: 2 }
     ],
     [
-        { x: 0, y: 1, flipped: false, compValue: 2 },
-        { x: 1, y: 1, flipped: false, compValue: 0 },
-        { x: 2, y: 1, flipped: false, compValue: 1 }
+        { x: 0, y: 1, flipped: false, compValue: 2, index: 3 },
+        { x: 1, y: 1, flipped: false, compValue: 0, index: 4 },
+        { x: 2, y: 1, flipped: false, compValue: 1, index: 5 }
     ]
 ]
 // cardsList[y = row][x = column/card].objectProperty
 
+const _cardsDivs = []
 
 const markerPosition = {
     x: 0,
@@ -38,6 +39,8 @@ cardsList.forEach(row => {
         const cardImage = document.createElement("img")
         cardImage.setAttribute("src", "assets/sprites/cardBack.png")
         cardDiv.appendChild(cardImage)
+
+        _cardsDivs.push(cardDiv)
     })
 })
 
@@ -119,29 +122,103 @@ function cardMarkerReference() {
 
 // cardMarkerReference()
 
+
+// Cria o marcador visual dentro da primeira carta
+createMarker(_cardsDivs, 0)
+
+function createMarker(element, index) {
+    const currentSelectedCard = document.createElement("img")
+    currentSelectedCard.classList.add("marker")
+    currentSelectedCard.setAttribute("src", "assets/sprites/cardMarker.png")
+    currentSelectedCard.setAttribute("id", "marker")
+    element[index].appendChild(currentSelectedCard)
+}
+
 function movementsInputs(value) {
+    //#region 
     if (value.key == "ArrowLeft") {
         if (markerPosition.x > 0) {
             markerPosition.x -= 1
-            cardMarkerReference()
+
+            let _currentMarkerPos = null
+            for (let i = 0; i < _cardsDivs.length; i++) {
+                const marker = document.querySelector("#marker")
+                if (marker) {
+                    marker.remove()
+                }
+            }
+
+            if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x
+                &&
+                markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
+                _currentMarkerPos = cardsList[markerPosition.y][markerPosition.x].index
+
+                createMarker(_cardsDivs, _currentMarkerPos)
+            }
         }
     }
     if (value.key == "ArrowRight") {
         if (markerPosition.x < cardsList[0].length - 1) {
             markerPosition.x += 1
-            cardMarkerReference()
+
+            let _currentMarkerPos = null
+            for (let i = 0; i < _cardsDivs.length; i++) {
+                const marker = document.querySelector("#marker")
+                if (marker) {
+                    marker.remove()
+                }
+            }
+
+            if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x
+                &&
+                markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
+                _currentMarkerPos = cardsList[markerPosition.y][markerPosition.x].index
+
+                createMarker(_cardsDivs, _currentMarkerPos)
+            }
         }
     }
     if (value.key == "ArrowUp") {
         if (markerPosition.y > 0) {
             markerPosition.y -= 1
-            cardMarkerReference()
+
+            let _currentMarkerPos = null
+            for (let i = 0; i < _cardsDivs.length; i++) {
+                const marker = document.querySelector("#marker")
+                if (marker) {
+                    marker.remove()
+                }
+            }
+
+            if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x
+                &&
+                markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
+                _currentMarkerPos = cardsList[markerPosition.y][markerPosition.x].index
+
+                createMarker(_cardsDivs, _currentMarkerPos)
+            }
         }
     }
     if (value.key == "ArrowDown") {
         if (markerPosition.y < cardsList.length - 1) {
             markerPosition.y += 1
-            cardMarkerReference()
+
+            let _currentMarkerPos = null
+            for (let i = 0; i < _cardsDivs.length; i++) {
+                const marker = document.querySelector("#marker")
+                if (marker) {
+                    marker.remove()
+                }
+            }
+
+            if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x
+                &&
+                markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
+                _currentMarkerPos = cardsList[markerPosition.y][markerPosition.x].index
+
+                createMarker(_cardsDivs, _currentMarkerPos)
+            }
         }
     }
+    //#endregion
 }
