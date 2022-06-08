@@ -1,7 +1,10 @@
 const markerPosition = {
     x: 0,
-    y: 0
+    y: 0,
+    currentCompValue: null
 }
+
+const _flippedCards = []
 
 const cardsList = [
     [
@@ -16,6 +19,8 @@ const cardsList = [
     ]
 ]
 // cardsList[y = row][x = column/card].objectProperty
+
+let _cardsFlipped = 0
 
 document.addEventListener("keypress", e => {
     // Movimenta o marcador
@@ -52,8 +57,33 @@ document.addEventListener("keypress", e => {
             markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
 
             cardsList[markerPosition.y][markerPosition.x].flipped = true
+
+            if (_cardsFlipped < 1) {
+                markerPosition.currentCompValue = cardsList[markerPosition.y][markerPosition.x].compValue
+            // Armazena na propriedade currentComp*arative*Value o valor comparativo da carta que foi virada
+            }
+
+            _cardsFlipped++
+
+            _flippedCards.push(cardsList[markerPosition.y][markerPosition.x])
+            // Salva o objeto da carta em uma lista temporaria
+
             
             cardMarkerReference()
+        }
+        if (_cardsFlipped > 1) {
+            if (markerPosition.currentCompValue == cardsList[markerPosition.y][markerPosition.x].compValue) {
+                console.log(`A carta 
+                    x: ${cardsList[markerPosition.y][markerPosition.x].x}
+                    y: ${cardsList[markerPosition.y][markerPosition.x].y}
+                    com valor comparativo: ${cardsList[markerPosition.y][markerPosition.x].compValue}
+                é Igual à carta armazenada no marcador na posição:
+                    x: ${markerPosition.x}
+                    y: ${markerPosition.y}
+                    com valor comparativo: ${markerPosition.currentCompValue}
+                
+                Você Acertou!`)
+            }
         }
     }
 })
@@ -63,12 +93,15 @@ function cardMarkerReference() {
     console.log(`Marcador:
     x: ${markerPosition.x}
     y: ${markerPosition.y}
-    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}`)
+    Carta em questão está virada? ${cardsList[markerPosition.y][markerPosition.x].flipped}
+    Valor de comparação armazenado: ${markerPosition.currentCompValue}`)
 
     console.log(`O Cartão selecionado está na:
     Linha (x): ${cardsList[markerPosition.y][markerPosition.x].y}
     Coluna (y): ${cardsList[markerPosition.y][markerPosition.x].x}
-    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}`)
+    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}
+    
+    Quantidade de cartas viradas: ${_cardsFlipped}`)
 }
 
 cardMarkerReference()
