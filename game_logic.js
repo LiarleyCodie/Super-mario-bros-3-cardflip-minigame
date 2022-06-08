@@ -20,7 +20,7 @@ const cardsList = [
 ]
 // cardsList[y = row][x = column/card].objectProperty
 
-let _cardsFlipped = 0
+let _cardsFlippedAmount = 0
 
 document.addEventListener("keypress", e => {
     // Movimenta o marcador
@@ -52,37 +52,48 @@ document.addEventListener("keypress", e => {
     // Verifica se espaço foi pressionado e faz uma verificação para saber se a posição do marcador
     // é igual a posição da carta desejada, se for, ao pressionar, ele vira essa carta.
     if (e.key == " ") {
-        if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x 
-            && 
+        if (markerPosition.x == cardsList[markerPosition.y][markerPosition.x].x
+            &&
             markerPosition.y == cardsList[markerPosition.y][markerPosition.x].y) {
 
             cardsList[markerPosition.y][markerPosition.x].flipped = true
 
-            if (_cardsFlipped < 1) {
+            // Armazena apenas UMA vez o valor comparativo da carta no marcador
+            if (_cardsFlippedAmount < 1) {
                 markerPosition.currentCompValue = cardsList[markerPosition.y][markerPosition.x].compValue
-            // Armazena na propriedade currentComp*arative*Value o valor comparativo da carta que foi virada
+                // Armazena na propriedade currentComp*arative*Value o valor comparativo da carta que foi virada
             }
 
-            _cardsFlipped++
+            // incrementa a quantidade de cartas viradas
+            _cardsFlippedAmount++
 
             _flippedCards.push(cardsList[markerPosition.y][markerPosition.x])
             // Salva o objeto da carta em uma lista temporaria
 
-            
+
             cardMarkerReference()
         }
-        if (_cardsFlipped > 1) {
+
+        if (_cardsFlippedAmount > 1) {
             if (markerPosition.currentCompValue == cardsList[markerPosition.y][markerPosition.x].compValue) {
-                console.log(`A carta 
-                    x: ${cardsList[markerPosition.y][markerPosition.x].x}
-                    y: ${cardsList[markerPosition.y][markerPosition.x].y}
-                    com valor comparativo: ${cardsList[markerPosition.y][markerPosition.x].compValue}
-                é Igual à carta armazenada no marcador na posição:
-                    x: ${markerPosition.x}
-                    y: ${markerPosition.y}
-                    com valor comparativo: ${markerPosition.currentCompValue}
-                
-                Você Acertou!`)
+                //#region
+                console.log(`\nA carta 
+    x: ${_flippedCards[0].x}
+    y: ${_flippedCards[0].y}
+    com valor comparativo: ${_flippedCards[0].compValue}
+é Igual à carta armazenada no marcador na posição:
+    x: ${markerPosition.x}
+    y: ${markerPosition.y}
+    com valor comparativo: ${markerPosition.currentCompValue}`)
+                //#endregion
+
+                window.alert("As cartas são iguais! Você acertou!")
+
+                for (let i = 0; i <= _flippedCards.length; i++) {
+                    _flippedCards.pop()
+                }
+            } else {
+                window.alert("Você errou!")
             }
         }
     }
@@ -101,7 +112,7 @@ function cardMarkerReference() {
     Coluna (y): ${cardsList[markerPosition.y][markerPosition.x].x}
     Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}
     
-    Quantidade de cartas viradas: ${_cardsFlipped}`)
+    Quantidade de cartas viradas: ${_cardsFlippedAmount}`)
 }
 
 cardMarkerReference()
