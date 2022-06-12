@@ -1,18 +1,46 @@
 //#region CONST and VARIABLES
 const cardsContainer = document.querySelector("#cardsContainer")
+let _cardsAmount = 8
+let cardsList = []
 
-const cardsList = [
-    [
-        { x: 0, y: 0, flipped: false, compValue: 0, index: 0 },
-        { x: 1, y: 0, flipped: false, compValue: 1, index: 1 },
-        { x: 2, y: 0, flipped: false, compValue: 2, index: 2 }
-    ],
-    [
-        { x: 0, y: 1, flipped: false, compValue: 2, index: 3 },
-        { x: 1, y: 1, flipped: false, compValue: 0, index: 4 },
-        { x: 2, y: 1, flipped: false, compValue: 1, index: 5 }
-    ]
-]
+createCardsList(_cardsAmount)
+
+function createCardsList(cardsAmount) {
+    let tempCardsList = []
+    let x = 0
+
+    for (let i = 0; i < cardsAmount * 2; i++) {
+        cardsList.push({ x: 0, y: 0, flipped: false, compValue: 0, index: i })
+        if (tempCardsList.length < 2) {
+            tempCardsList.push([])
+        }
+    }
+
+    for (let i = _cardsAmount; i < cardsList.length; i++) {
+        cardsList[i].y = 1
+    }
+
+    for (let i = x; i < cardsAmount * 2; i++) {
+        if (tempCardsList[0].length < cardsAmount) {
+            tempCardsList[0].push(cardsList[i])
+            x = tempCardsList[0].length
+        }
+        if (tempCardsList[0].length == cardsAmount) {
+            tempCardsList[1].push(cardsList[i])
+        }
+        if (tempCardsList[1].length > cardsAmount) {
+            tempCardsList[1].shift()
+        }
+    }
+
+    tempCardsList.forEach(array => {
+        for (let i = 0; i < _cardsAmount; i++) {
+            array[i].x = i
+        }
+    })
+
+    cardsList = tempCardsList
+}
 // cardsList[y = row][x = column/card].objectProperty
 
 const _cardsDivs = []
@@ -134,9 +162,9 @@ function createMarker(element, index) {
     element[index].appendChild(currentSelectedCard)
 }
 
-function movementsInputs(value) {
+function movementsInputs(command) {
     //#region 
-    if (value.key == "ArrowLeft") {
+    if (command.key == "ArrowLeft") {
         if (markerPosition.x > 0) {
             markerPosition.x -= 1
 
@@ -157,7 +185,7 @@ function movementsInputs(value) {
             }
         }
     }
-    if (value.key == "ArrowRight") {
+    if (command.key == "ArrowRight") {
         if (markerPosition.x < cardsList[0].length - 1) {
             markerPosition.x += 1
 
@@ -178,7 +206,7 @@ function movementsInputs(value) {
             }
         }
     }
-    if (value.key == "ArrowUp") {
+    if (command.key == "ArrowUp") {
         if (markerPosition.y > 0) {
             markerPosition.y -= 1
 
@@ -199,7 +227,7 @@ function movementsInputs(value) {
             }
         }
     }
-    if (value.key == "ArrowDown") {
+    if (command.key == "ArrowDown") {
         if (markerPosition.y < cardsList.length - 1) {
             markerPosition.y += 1
 
