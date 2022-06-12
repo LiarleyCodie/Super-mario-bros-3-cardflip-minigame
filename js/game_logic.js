@@ -1,6 +1,5 @@
-//#region CONST and VARIABLES
 const cardsContainer = document.querySelector("#cardsContainer")
-let _cardsAmount = 8
+let _cardsAmount = 4
 let cardsList = []
 
 createCardsList(_cardsAmount)
@@ -74,9 +73,7 @@ cardsList.forEach(row => {
 
 const _flippedCards = []
 
-
 let _cardsFlippedAmount = 0
-//#endregion
 
 document.addEventListener("keypress", e => {
     // Movimenta o marcador
@@ -131,25 +128,6 @@ document.addEventListener("keypress", e => {
         }
     }
 })
-
-function cardMarkerReference() {
-    console.clear()
-    console.log(`Marcador:
-    x: ${markerPosition.x}
-    y: ${markerPosition.y}
-    Carta em questão está virada? ${cardsList[markerPosition.y][markerPosition.x].flipped}
-    Valor de comparação armazenado: ${markerPosition.currentCompValue}`)
-
-    console.log(`O Cartão selecionado está na:
-    Linha (x): ${cardsList[markerPosition.y][markerPosition.x].y}
-    Coluna (y): ${cardsList[markerPosition.y][markerPosition.x].x}
-    Carta em questão está virada: ${cardsList[markerPosition.y][markerPosition.x].flipped}
-    
-    Quantidade de cartas viradas: ${_cardsFlippedAmount}`)
-}
-
-// cardMarkerReference()
-
 
 // Cria o marcador visual dentro da primeira carta
 createMarker(_cardsDivs, 0)
