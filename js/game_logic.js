@@ -42,7 +42,7 @@ function createCardsList(cardsAmount) {
 }
 // cardsList[y = row][x = column/card].objectProperty
 
-const _cardsDivs = []
+const _cardsDivs = []           //
 
 const markerPosition = {
     x: 0,
@@ -59,6 +59,7 @@ cardsList.forEach(row => {
     // Cria as cartas
     row.forEach(card => {
         const cardDiv = document.createElement("div")
+        cardDiv.setAttribute("id", "card")
         cardDiv.classList.add("card")
         rowDiv.appendChild(cardDiv)
 
@@ -88,56 +89,27 @@ document.addEventListener("keypress", e => {
 
             cardsList[markerPosition.y][markerPosition.x].flipped = true
 
-            // Armazena apenas UMA vez o valor comparativo da carta no marcador
-            if (_cardsFlippedAmount < 1) {
-                markerPosition.currentCompValue = cardsList[markerPosition.y][markerPosition.x].compValue
-                // Armazena na propriedade currentComp*arative*Value o valor comparativo da carta que foi virada
-            }
-
-            // incrementa a quantidade de cartas viradas
-            _cardsFlippedAmount++
-
-            _flippedCards.push(cardsList[markerPosition.y][markerPosition.x])
-            // Salva o objeto da carta em uma lista temporaria
-
-
-            cardMarkerReference()
-        }
-
-        if (_cardsFlippedAmount > 1) {
-            if (markerPosition.currentCompValue == cardsList[markerPosition.y][markerPosition.x].compValue) {
-                //#region
-                console.log(`\nA carta 
-    x: ${_flippedCards[0].x}
-    y: ${_flippedCards[0].y}
-    com valor comparativo: ${_flippedCards[0].compValue}
-é Igual à carta armazenada no marcador na posição:
-    x: ${markerPosition.x}
-    y: ${markerPosition.y}
-    com valor comparativo: ${markerPosition.currentCompValue}`)
-                //#endregion
-
-                window.alert("As cartas são iguais! Você acertou!")
-
-                for (let i = 0; i <= _flippedCards.length; i++) {
-                    _flippedCards.pop()
-                }
-            } else {
-                window.alert("Você errou!")
+            if (cardsList[markerPosition.y][markerPosition.x].flipped == true) {
+                let _cardImage = _cardsDivs[cardsList[markerPosition.y][markerPosition.x].index].querySelector("img")
+                let _compValue = cardsList[markerPosition.y][markerPosition.x].compValue
+                _cardImage.setAttribute("src", `assets/sprites/cardFront_${_compValue}.png`)
             }
         }
     }
 })
 
-// Cria o marcador visual dentro da primeira carta
-createMarker(_cardsDivs, 0)
+createMarker(_cardsDivs, 0)     // Inicializa um marcador visual na (array, índice da carta)
 
 function createMarker(element, index) {
     const currentSelectedCard = document.createElement("img")
     currentSelectedCard.classList.add("marker")
-    currentSelectedCard.setAttribute("src", "assets/sprites/cardMarker.png")
+    currentSelectedCard.setAttribute("src", `assets/sprites/cardMarker.png`)
     currentSelectedCard.setAttribute("id", "marker")
     element[index].appendChild(currentSelectedCard)
+
+    if (cardsList[markerPosition.y][markerPosition.x].flipped == true) {
+        console.log("Uma carta foi virada")
+    }
 }
 
 function movementsInputs(command) {
@@ -227,4 +199,8 @@ function movementsInputs(command) {
         }
     }
     //#endregion
+}
+
+function randomValue(value) {
+    return Math.floor(Math.random() * value)
 }
