@@ -1,2 +1,0 @@
-  lista.push(randomValue(valor))
-}
