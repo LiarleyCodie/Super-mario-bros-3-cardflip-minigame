@@ -1,15 +1,16 @@
 const cardsContainer = document.querySelector("#cardsContainer")
-let _cardsAmount = 4
+let _cardsAmount = 10
 let cardsList = []
+
 
 createCardsList(_cardsAmount)
 
 function createCardsList(cardsAmount) {
     let tempCardsList = []
     let x = 0
-
+    const _array = shuffleArray(createArray(_cardsAmount))
     for (let i = 0; i < cardsAmount * 2; i++) {
-        cardsList.push({ x: 0, y: 0, flipped: false, compValue: 0, index: i })
+        cardsList.push({ x: 0, y: 0, flipped: false, compValue: _array[i], index: i })
         if (tempCardsList.length < 2) {
             tempCardsList.push([])
         }
@@ -34,8 +35,10 @@ function createCardsList(cardsAmount) {
 
     tempCardsList.forEach(array => {
         for (let i = 0; i < _cardsAmount; i++) {
+
             array[i].x = i
         }
+
     })
 
     cardsList = tempCardsList
@@ -201,6 +204,24 @@ function movementsInputs(command) {
     //#endregion
 }
 
-function randomValue(value) {
-    return Math.floor(Math.random() * value)
+function createArray(arrSize) {
+    const arr = []
+    for (let i = 0; i < 6; i++) {
+        arr.push(i)
+    }
+
+    for (let i = 0; i < 6; i++) {
+        arr.push(i)
+    }
+
+    return arr
 }
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr
+}
+console.log(shuffleArray(createArray(_cardsAmount)))
